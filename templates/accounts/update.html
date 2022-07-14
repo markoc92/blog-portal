@@ -1,0 +1,85 @@
+{% extends "../base/base.html" %}
+
+{% load static %}
+{% block stylesheet %}{% static 'accounts/css/update.css' %}{% endblock %}
+
+{% block title %}Edit your account{% endblock %}
+{% block content %}
+
+<div class="container-fluid my-5">
+    <section class="px-md-5 mx-md-5 text-center text-lg-left dark-grey-text">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-6">
+
+                <form class="form-reset p-4 rounded update-form" method="post" enctype="multipart/form-data">
+
+                    {% if user_form.is_valid and profile_form.is_valid %}
+                    <div class="alert alert-primary" role="alert">
+                        Details successfully updated!
+                    </div>
+                    <p class="small text-center pt-0">
+                        <a href="{% url "accounts:profile" %}">Back to Dashboard</a>
+                    </p>
+                    {%else%}
+                    <p class=" h4 mb-4 font-weight-bold">Change your details</p>
+                    <p>You can edit your account using the following form:</p>
+                    {% endif %}
+                    {% csrf_token %}
+
+                    <div class="form__group">
+                        {% for err in user_form.first_name.errors %}
+                            <small style="color: red" class="text-danger ml-2">{{ err }}</small><br />
+                        {% endfor %}
+                        <label class="small font-weight-bold">{{ user_form.first_name.label}}</label>
+                        {{ user_form.first_name }}
+                    </div>
+
+                    <div class="form__group">
+                        {% for err in user_form.last_name.errors %}
+                            <small style="color: red" class="text-danger ml-2">{{ err }}</small><br />
+                        {% endfor %}
+                        <label class="small font-weight-bold">{{ user_form.last_name.label}}</label>
+                        {{ user_form.last_name }}
+                    </div>
+
+                    <div class="form__group">
+                        {% for err in user_form.email.errors %}
+                            <small style="color: red" class="text-danger ml-2">{{ err }}</small><br />
+                        {% endfor %}
+                        <label class="small font-weight-bold">{{ user_form.email.label}}</label>
+                        {{ user_form.email }}
+                    </div>
+
+                    <div class="form__group">
+                        {% for err in profile_form.bio.errors %}
+                            <small style="color: red" class="text-danger ml-2">{{ err }}</small><br />
+                        {% endfor %}
+                        <label class="small font-weight-bold">{{ profile_form.bio.label}}</label>
+                        {{ profile_form.bio }}
+
+                    </div>
+
+                    <div class="form__group">
+                        {% for err in profile_form.avatar.errors %}
+                            <small style="color: red" class="text-danger ml-2">{{ err }}</small><br />
+                        {% endfor %}
+                        <label class="small font-weight-bold">{{ profile_form.avatar.label}}</label>
+                        <br>
+                        {{ profile_form.avatar }}
+                    </div>
+
+                    <button class="btn btn-primary btn-block py-2 mb-4 mt-5 font-weight-bold" type="submit"
+                        value="Save changes">Save Changes</button>
+                    <hr class="mb-3">
+                    <p class=" h5 mb-2 pt-4 font-weight-bold">Delete Account</p>
+                    <p class="small">If you would like to delete your account press the button below:</p>
+                    <a href="{% url "accounts:deleteuser" %}"
+                        class="btn btn-danger btn-block py-2 mb-4 mt-5 font-weight-bold" role="button"
+                        aria-pressed="true">Delete Account</a>
+                </form>
+
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

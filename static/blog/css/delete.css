@@ -1,0 +1,11 @@
+.layout__body {
+    margin-top: 20px;
+}
+
+.layout__body p {
+    margin-bottom: 8px;
+}
+
+.delete-item {
+    margin-top: 20px;
+}

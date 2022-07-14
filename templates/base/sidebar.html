@@ -1,0 +1,73 @@
+{% load static %}
+
+<!-- Sidebar -->
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+    <!-- Sidebar - Brand -->
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
+        <div class="sidebar-brand-icon rotate-n-15">
+            <i class="fas fa-blog"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3">Blog</div>
+    </a>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider my-0">
+
+    <!-- Nav Item - Dashboard -->
+    <li class="nav-item active">
+        <a class="nav-link" href="/"><i class="fas fa-fw fa-home"></i><span>Home</span></a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="/search"><i class="fas fa-fw fa-search"></i><span>Search</span></a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+        aria-expanded="true" aria-controls="collapseTwo"><i class="fas fa-fw fa-cog"></i><span>Categories</span></a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Latest:</h6>
+                {% for category in category_list|slice:":12" %}
+                <a class="collapse-item" href="/category/{{ category.name}}">
+                    {{ category.name|title }}
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    {% if request.user.is_authenticated %}
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        Interface
+    </div>
+
+    <!-- Nav Item - Dashboard -->
+    <li class="nav-item">
+        <a class="nav-link" href="{% url "accounts:profile" %}"><i class="fas fa-fw fa-tachometer-alt"></i><span>My Dashboard</span></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url "accounts:drafts" %}"><i class="fas fa-fw fa-ruler"></i><span>Drafts</span></a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="{% url "blog:post_create" %}"><i class="fas fa-plus-square"></i><span>Create Post</span></a>
+    </li>
+    {% endif %}
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+</ul>
+<!-- End of Sidebar -->
+
+
+
+
+
+
+

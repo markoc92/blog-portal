@@ -1,0 +1,76 @@
+{% extends "../base/base.html" %}
+
+{% load static %}
+{% block stylesheet %}{% static 'blog/css/profile.css' %}{% endblock %}
+
+{% block title %}Create Post{% endblock %}
+{% block content %}
+<div class="container pt-5">
+
+    {% if request.get_full_path == '/create/' %}
+      <h1>Create Post</h1>
+    {% else %}
+      <h1>Edit Post</h1>
+    {% endif %}
+
+    <form class="account-form p-1 rounded" method="POST" action="" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form.media}}
+
+      {% if request.get_full_path == '/create/' %}
+        <div class="form-group">
+          <label class="mt-3">Category</label>
+          <br>
+          <input
+          class="form-control mb-3"
+          required
+          type="text"
+          value="{{post.category.name}}"
+          name="category"
+          />
+        </div>
+        {% else %}
+        <div class="form-group">
+          <label class="mt-3">Category</label>
+          <br>
+          {{form.category}}
+        </div>
+        {% endif %}
+
+        <div class="form-group">
+          <label class="mt-3">Title</label>
+          <br>
+          {{form.title}}
+        </div>
+
+        <label>Image</label>
+        <div class="form__group">
+          {% for err in form.image.errors %}
+          <small style="color: red" class="text-danger ml-2">{{ err }}</small><br />
+          {% endfor %}
+          <div>Currently: <a href="/media/{{form.image.value}}">/media/{{form.image.value}}</a></div> {% endcomment %}
+          Upload: <input type="file" name="image" accept="image/*" id="image">
+        </div>
+
+        <div class="form__group">
+          <label class="mt-3">Image Caption</label>
+          {{form.image_caption}}
+        </div>
+
+        <div class="form__group">
+          <label>Content</label>
+          {{form.content}}
+        </div>
+
+        <div class="form__group">
+          <label>Status</label>
+          {{form.status}}
+        </div>
+
+        <button type="submit" class="btn btn-dark">Submit</button>
+
+      </form>
+
+</div>
+
+{% endblock %}

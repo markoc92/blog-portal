@@ -1,0 +1,61 @@
+{% extends "../base/base.html" %}
+
+{% load static %}
+{% block stylesheet %}{% static 'blog/css/profile.css' %}{% endblock %}
+
+{% block title %}Users Favourties{% endblock %}
+{% block content %}
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Users saved favourite posts</h1>
+    </div>
+
+    <!-- Content Row -->
+    <div class="row">
+        <!-- Earnings (Monthly) Card Example -->
+        {% for post in new %}
+        <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card-deck">
+                <div class="card">
+                  <a  href="{{post.get_absolute_url}}">
+                    <img class="card-img-top" src="{{ post.get_image_url}}" alt="{{ post.title }}">
+                  </a>
+                  <div class="card-body">
+                      <div class="mb-3">
+                        {% if post.author.id == request.user.id %}
+                        <a class="modify-icon mr-1" href="{% url 'blog:post_edit' post.id %}">
+                          <i class="fas fa-edit fa-lg" style="color:grey"></i></a>
+                        <a class="modify-icon delete-modal mr-1" data-url="{% url 'blog:post_delete' post.id %}">
+                          <i class="fas fa-trash-alt fa-lg" style="color:#DF2C10"></i></a>
+                        {% endif %}
+                        <a class="modify-icon" href="{% url 'accounts:favourite_add' post.id %}">
+                        <i class="fas fa-minus-circle fa-lg" style="color:#1A3BE0"></i></a>
+                      </div>
+                    <div class="post_container">
+                      <a class="text-dark modify-icon" href="{{post.get_absolute_url}}">
+                      <h2 style="font-size:18px;font-weight:bold">{{post.title|truncatechars:50}}</h2>
+                      <p class="card-text">{{post.content|safe|truncatechars:150}}</p>
+                      </a>
+                      <div class="d-flex justify-content-between align-items-center">
+                        <small class="text-muted">{{ post.updated }}</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-md-8">
+            <p>You don't have saved posts currently</p>
+        </div>
+        {% endfor %}
+    </div>
+  </div>
+  <!-- /.container-fluid -->
+
+  <div id="modal-div"></div>
+{% endblock %}

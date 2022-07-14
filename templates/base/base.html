@@ -1,0 +1,277 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>{% block title %} Welcome to blog {% endblock %}</title>
+
+    <!-- Custom fonts for this template-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <link rel="shortcut icon" type="image/png" href="{% static 'favicon.png' %}"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.0/js/bootstrap.min.js" integrity="sha512-XKa9Hemdy1Ui3KSGgJdgMyYlUg1gM+QhL6cnlyTe2qzMCYm4nAZ1PsVerQzTTXzonUR+dmswHqgJPuwCq1MaAg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <link rel="stylesheet" href="{% block stylesheet %}{% endblock %}">
+
+    <link rel="stylesheet" href="{% static 'core/css/base.css' %}">
+
+</head>
+
+<body id="page-top">
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+      {% include "base/sidebar.html" %}
+      <!-- Content Wrapper -->
+      <div id="content-wrapper" class="d-flex flex-column">
+          <!-- Main Content -->
+          <div id="content">
+              {% include "base/topbar.html" %}
+              {% block content %}
+              {% endblock %}
+          </div>
+          {% include "base/footer.html" %}
+      </div>
+
+    </div>
+    <!-- End of Page Wrapper -->
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                  <a class="btn btn-primary" href="{% url "accounts:logout" %}">Logout</a>
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.0/js/bootstrap.bundle.min.js" integrity="sha512-wV7Yj1alIZDqZFCUQJy85VN+qvEIly93fIQAN7iqDFCPEucLCeNFz4r35FCo9s6WrpdDQPi80xbljXB8Bjtvcg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js" integrity="sha512-0QbL0ph8Tc8g5bLhfVzSqxe9GERORsKhIn1IrpxDAgUsbBGz/V7iSav2zzW325XGd1OMLdL4UiqRJj702IeqnQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="{% static 'core/js/script.js' %}"></script>
+
+    <script>
+      var modalDiv = $("#modal-div");
+
+      $(".publish-modal").on("click", function() {
+        $.ajax({
+          url: $(this).attr("data-url"),
+          success: function(data) {
+            modalDiv.html(data);
+            $("#myPublish").modal();
+          }
+        });
+      });
+
+      $(".delete-modal").on("click", function() {
+        $.ajax({
+          url: $(this).attr("data-url"),
+          success: function(data) {
+            modalDiv.html(data);
+            $("#myDelete").modal();
+          }
+        });
+      });
+
+      //Comments
+  $(document).on('click', '#newcomment, #newcommentinner', function (e) {
+    e.preventDefault();
+
+    var button = $(this).attr("value");
+
+    var placement = "commentform"
+    if (button == "newcommentform") {
+      var placement = "newcommentform"
+    }
+
+    $.ajax({
+      type: 'POST',
+      url: '{% url "blog:addcomment" %}',
+      data: $("#" + button).serialize(),
+      cache: false,
+      success: function (json) {
+
+        $('<div id="" class="my-2 p-2" style="border: 0px solid grey"> \
+          <div class="d-flex justify-content-between">\
+            <div><img class="avatar_single mr-3" src=' + /media/ + json['avatar_url'] + '>By ' + json['user'] + '</div> \
+            <div>Posted: Just now!</div>\
+          </div>\
+          <div class="node-content">' + json['result'] + '</div> \
+          <hr> \
+        </div>').insertBefore('#' + placement);
+
+        $('.commentform').trigger("reset");
+        formExit()
+
+      },
+      error: function (xhr, errmsg, err) {
+
+      }
+    });
+  })
+
+  function formExit(e) {
+    $("#newcommentform").remove();
+  }
+
+  function deleteComment(id) {
+    $.ajax({
+      type: 'POST',
+      url: '{% url "blog:addcomment" %}',
+      data: {
+        nodeid: id,
+        action: 'delete',
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+      },
+      success: function (json) {
+        $("#" + json['remove']).remove();
+      },
+      error: function (xhr, errmsg, err) {}
+    });
+  }
+
+  function myFunction(id) {
+    if (document.contains(document.getElementById("newcommentform"))) {
+      document.getElementById("newcommentform").remove();
+    }
+    var postid = document.getElementById('thumbs').getAttribute('data-value');
+    var imgFullURL = $('img.avatar_comment')[0].src;
+    var d1 = document.getElementById(id);
+    d1.insertAdjacentHTML('afterend',
+      '<form id="newcommentform" class="commentform" method="post"> \
+        {% csrf_token %} \
+        <select name="post" class="d-none" id="id_post"> \
+          <option value="' + postid + '" selected="' + postid + '"></option> \
+        </select> <label class="small font-weight-bold"></label> \
+        <select name="parent" class="d-none" id="id_parent"> \
+          <option value="' + id + '" selected="' + id + '"></option> \
+        </select> \
+        <div class="d-flex"> \
+          <img class="avatar_comment align-self-center" src="' + imgFullURL + '"> \
+          <textarea name="content" cols="40" rows="1" class="ml-3 mb-3 form-control border-0 comment-add rounded-0" placeholder="Add a public comment" required="" id="id_content"></textarea> \
+        </div> \
+        <div class="d-flex flex-row-reverse"> \
+        <button type="button" class="btn btn-outline-secondary" onclick="formExit()">Close</button> \
+          <button value="newcommentform" id="newcommentinner" type="submit" class="mr-1 newcomment btn btn-primary ">Submit</button> \
+        </div> \
+      </form>'
+    );
+  }
+
+  //Reset form on page reload
+  $('.commentform').trigger("reset");
+
+  //Heart Post Rating
+  $(document).on('click', '#like-button', function (e) {
+    e.preventDefault();
+    $.ajax({
+      type: 'POST',
+      url: '{% url "accounts:like" %}',
+      data: {
+        postid: $('#like-button').val(),
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        action: 'post'
+      },
+      success: function (json) {
+        document.getElementById("like_count").innerHTML = json['result']
+      },
+      error: function (xhr, errmsg, err) {
+
+      }
+    });
+  })
+
+  //Thumb Rating System
+  $(document).ready(function () {
+    $('.thumbaction').click(function (e) {
+      e.preventDefault();
+      var postid = document.getElementById('thumbs').getAttribute('data-value');
+      var button = $(this).attr("value");
+      $.ajax({
+        type: 'POST',
+        url: '{% url "accounts:thumbs" %}',
+        data: {
+          postid: postid,
+          csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+          action: 'thumbs',
+          button: button,
+        },
+        success: function (json) {
+          if (json.length < 1 || json == undefined) {
+          }
+          document.getElementById("up").innerHTML = json['up']
+          document.getElementById("down").innerHTML = json['down']
+          $("svg").removeClass("thumb-active");
+
+          if (json['remove'] == 'none') {
+            $("#" + button).removeClass("thumb-active");
+          } else {
+            $("#" + button).addClass("thumb-active");
+          }
+
+        },
+        error: function (xhr, errmsg, err) {}
+      });
+    });
+  });
+
+    $(document).on('keyup', '#id_q', function (e) {
+      e.preventDefault();
+      var minlength = 3;
+      var results = [];
+      if ($('#id_q').val().length >= minlength) {
+          $.ajax({
+              type: 'POST',
+              url: '{% url "blog:post_search" %}',
+              data: {
+                  ss: $('#id_q').val(),
+                  csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                  action: 'post'
+              },
+              success: function (json) {
+                  $.each(JSON.parse(json.search_string), function (i, item) {
+                      results.push('<li class="my-2 pl-2"><a href="/' + item
+                          .pk +
+                          '">' + item.fields.title +
+                          '</a></li>')
+                  })
+                  if (!$(".show")[0]) {
+                      $('.menudd').trigger('click')
+                  }
+
+                  document.getElementById("list").innerHTML = (!results.length) ?
+                      "No results match your query" : results.join('');
+              },
+              error: function (xhr, errmsg, err) {}
+          });
+      }
+  })
+    </script>
+</body>
+</html>

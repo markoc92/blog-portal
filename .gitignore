@@ -1,0 +1,6 @@
+/media/posts/*/
+/media/users/*/
+/venv/
+/.idea
+/.vscode
+settings_copy.py

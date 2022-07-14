@@ -1,0 +1,64 @@
+{% extends "../base/base.html" %}
+
+{% load static %}
+{% block stylesheet %}{% static 'blog/css/profile.css' %}{% endblock %}
+
+{% block title %}
+Categories
+{% endblock %}
+
+{% block content %}
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+  <!-- Page Heading -->
+  <div class="d-sm-flex align-items-center justify-content-between mb-2">
+      <h1 class="h3 mb-0 text-gray-800">List of {{category.name}} posts</h1>
+  </div>
+
+  <!-- Content Row -->
+  <div class="row">
+      <!-- Earnings (Monthly) Card Example -->
+      {% for post in posts %}
+      <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card-deck">
+              <div class="card">
+                <a  href="{{post.get_absolute_url}}">
+                  <img class="card-img-top" src="{{post.image.url}}" alt="{{ post.title }}">
+                </a>
+                <div class="card-body">
+                  {% if post.author.id == request.user.id %}
+                    <div class="mb-3">
+                      <a class="modify-icon" href="{% url 'blog:post_edit' post.id %}">
+                        <i class="fas fa-edit fa-lg" style="color:grey"></i></a>
+                      <a class="modify-icon delete-modal" data-url="{% url 'blog:post_delete' post.id %}">
+                        <i class="fas fa-trash-alt fa-lg" style="color:#DF2C10"></i></a>
+                    </div>
+                  {% endif %}
+                  <div class="post_container">
+                    <a class="text-dark modify-icon" href="{{post.get_absolute_url}}">
+                    <h2 style="font-size:18px;font-weight:bold">{{post.title|truncatechars:50}}</h2>
+                    <p class="card-text">{{post.content|safe|truncatechars:150}}</p>
+                    </a>
+                    <div class="d-flex justify-content-between align-items-center">
+                      <small class="text-muted">{{ post.updated }}</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+      </div>
+      {% empty %}
+      <div class="col-md-8">
+        <p>There are no posts for current category</p>
+      </div>
+      {% endfor %}
+  </div>
+</div>
+<!-- /.container-fluid -->
+
+<div id="modal-div"></div>
+
+
+{% endblock %}

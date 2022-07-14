@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&display=swap');
+
+.h1 {
+  font-family: 'PT Serif', serif;
+  font-size: 2.55rem;
+  line-height: 2.6rem;
+  letter-spacing: -0.063px;
+}
+
+h2 {
+  font-family: 'PT Serif', serif;
+  font-size: 1.9rem;
+  line-height: 2.6rem;
+  letter-spacing: -0.063px;
+  font-weight: 700;
+  padding-top: 48px;
+}
+
+p {
+  font-family: 'PT Serif', serif;
+  line-height: 2rem;
+  font-size: 1.3rem
+}
+
+@media screen and (min-width: 600px) {
+  .children form {
+    margin-left: -48px;
+    /* will touch very left side */
+  }
+
+  .children .children form {
+    margin-left: -96px;
+    /* will touch very left side */
+  }
+}
+
+.avatar_comment,
+.avatar_single {
+  height: 48px;
+  width: 48px;
+  background-color: #000;
+  border-radius: 50%;
+  display: inline-block;
+
+}
+
+.smaller {
+  font-size: 0.8rem;
+}
+
+.thumb-active {
+  fill: blue
+}
+
+.comment-add {}
+
+.comment-add {
+  border-bottom: 1px solid #ccc !important;
+}
+
+.comment-add:focus {
+  border-color: #1497ff;
+  box-shadow: inset 0 0px 0px rgba(0, 0, 0, 0.075), 0 0 0px rgba(255, 0, 0, 0.6);
+}
+
+.node-content {
+  padding-left: 64px;
+}
+

@@ -1,0 +1,24 @@
+<div class="modal fade" id="myPublish" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <form  class="well modal-form" style="width:100%" method="POST" action="{% url 'blog:post_publish' post.id %}">
+      {% csrf_token %}
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Publish Post</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="form-group">
+            <p>Are you sure you want to publish "{{post}}"?</p>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button  type="submit" class="btn btn-success">Confirm</button>
+        <button  value="" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
