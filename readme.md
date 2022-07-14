@@ -18,18 +18,18 @@
 **`Django`**  (v4.0.4)<br />
 
 ## 3. Project Setup ##
-**install virtual environment**
+**install virtual environment**\
 `sudo pip install virtualenv`
 
-**create virtual environment**
+**create virtual environment**\
 `virtualenv venv`
-OR
+or
 `virtualenv --python=/usr/bin/python3 venv`
 
-**activate virtual environment**
+**activate virtual environment**\
 `source venv/bin/activate`
 
-**install requirements**
+**install requirements**\
 `pip install -r requirements.txt`
 
 **django secret key**
@@ -40,10 +40,10 @@ OR
 * project is configured for PostgreSQL but if you want other databases, configure your settings file and install corresponding database engine
 * provide your database credentials in settings.py
 
-**migrate database**
+**migrate database**\
 `python manage.py migrate`
 
-**run django server**
+**run django server**\
 `python manage.py runserver`
 
 **registration info**
